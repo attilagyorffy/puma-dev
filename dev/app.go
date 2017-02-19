@@ -265,7 +265,7 @@ func (pool *AppPool) LaunchApp(name, dir string) (*App, error) {
 
 	shell := os.Getenv("SHELL")
 
-	cmd := exec.Command(shell, "-l", "-i", "-c",
+	cmd := exec.Command(shell, "-l", "-c",
 		fmt.Sprintf(executionShell, dir, name, socket, name, socket))
 
 	cmd.Dir = dir
