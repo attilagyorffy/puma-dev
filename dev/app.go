@@ -247,11 +247,7 @@ if test -e .powenv; then
 	source .powenv
 fi
 
-if test -e Gemfile && grep -q '\spuma$' Gemfile.lock; then
-	exec bundle exec puma -C $CONFIG --tag puma-dev:%s -w $WORKERS -t 0:$THREADS -b unix:%s
-fi
-
-exec puma -C $CONFIG --tag puma-dev:%s -w $WORKERS -t 0:$THREADS -b unix:%s'
+exec bundle exec puma -C $CONFIG --tag puma-dev:%s -w $WORKERS -t 0:$THREADS -b unix:%s'
 `
 
 func (pool *AppPool) LaunchApp(name, dir string) (*App, error) {
@@ -265,8 +261,13 @@ func (pool *AppPool) LaunchApp(name, dir string) (*App, error) {
 
 	shell := os.Getenv("SHELL")
 
-	cmd := exec.Command(shell, "-l", "-c",
-		fmt.Sprintf(executionShell, dir, name, socket, name, socket))
+	fmt.Printf("! Running shell '%s'\n", shell)
+
+	cmdString := fmt.Sprintf(executionShell, dir, name, socket, name, socket)
+
+	fmt.Printf("! Running command '%s'\n", cmdString)
+
+	cmd := exec.Command(shell, "-l", "-c", cmdString)
 
 	cmd.Dir = dir
 
@@ -289,7 +290,7 @@ func (pool *AppPool) LaunchApp(name, dir string) (*App, error) {
 		return nil, errors.Context(err, "starting app")
 	}
 
-	fmt.Printf("! Booting app '%s' on socket %s\n", name, socket)
+	fmt.Printf("! Booting ma app '%s' on socket %s\n", name, socket)
 
 	app := &App{
 		Name:      name,
