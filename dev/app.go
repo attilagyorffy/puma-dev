@@ -265,6 +265,8 @@ func (pool *AppPool) LaunchApp(name, dir string) (*App, error) {
 
 	shell := os.Getenv("SHELL")
 
+	fmt.Printf("! Running shell '%s'\n", shell)
+
 	cmd := exec.Command(shell, "-l", "-c",
 		fmt.Sprintf(executionShell, dir, name, socket, name, socket))
 
@@ -289,7 +291,7 @@ func (pool *AppPool) LaunchApp(name, dir string) (*App, error) {
 		return nil, errors.Context(err, "starting app")
 	}
 
-	fmt.Printf("! Booting app '%s' on socket %s\n", name, socket)
+	fmt.Printf("! Booting ma app '%s' on socket %s\n", name, socket)
 
 	app := &App{
 		Name:      name,
