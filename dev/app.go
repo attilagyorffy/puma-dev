@@ -265,7 +265,7 @@ func (pool *AppPool) LaunchApp(name, dir string) (*App, error) {
 
 	cmdString := fmt.Sprintf(executionShell, dir, name, socket, name, socket)
 
-	fmt.Printf("! Running command '%s'\n", cmdString)
+	// fmt.Printf("! Running command '%s'\n", cmdString)
 
 	cmd := exec.Command(shell, "-l", "-c", cmdString)
 
